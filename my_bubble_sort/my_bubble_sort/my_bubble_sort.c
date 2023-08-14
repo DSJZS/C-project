@@ -18,7 +18,7 @@ void swap(void* elem, size_t width)
 
 //base-数组首元素地址  num-数组元素个数 width-数组元素大小 compare-比较函数指针
 //作用：对一个元素类型任意的数组进行排序
-void my_qsort(void *base, size_t num, size_t width, int (*compare)(const void *, const void*))
+void my_bubble_sort(void *base, size_t num, size_t width, int (*compare)(const void *, const void*))
 {
 	int i = 0;
 	
@@ -49,7 +49,7 @@ int main()
 	int width = sizeof(arr[0]);
 	int i = 0;
 
-	my_qsort(arr, num,width,cmp_int);
+	my_bubble_sort(arr, num,width,cmp_int);
 
 	for(i=0;i< num;i++)
 	{
