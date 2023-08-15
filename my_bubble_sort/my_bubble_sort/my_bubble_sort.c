@@ -2,8 +2,8 @@
 
 #include<stdio.h>
 
-// elem-����Ԫ��ָ�� width-����Ԫ�ش�С
-// ���ã���һ�������ĳһ��Ԫ������һ��Ԫ�ؽ��л���
+// elem-数组元素指针 width-数组元素大小
+// 作用：将一个数组的某一个元素与下一个元素进行互换
 void swap(void* elem, size_t width)
 {
 	int i = 0;
@@ -16,8 +16,8 @@ void swap(void* elem, size_t width)
 	}
 }
 
-//base-������Ԫ�ص�ַ  num-����Ԫ�ظ��� width-����Ԫ�ش�С compare-�ȽϺ���ָ��
-//���ã���һ��Ԫ����������������������
+//base-数组首元素地址  num-数组元素个数 width-数组元素大小 compare-比较函数指针
+//作用：对一个元素类型任意的数组进行排序
 void my_bubble_sort(void *base, size_t num, size_t width, int (*compare)(const void *, const void*))
 {
 	int i = 0;
@@ -35,8 +35,8 @@ void my_bubble_sort(void *base, size_t num, size_t width, int (*compare)(const v
 	}
 }
 
-// p1��p2-����Ԫ��ָ��
-// ���ã��Ƚ����δ�С, elem1ָ���Ԫ�ش���elem2ָ���Ԫ�ؾͷ���>0�����֣��෴�򷵻�<0�����飬��ͬ�ͷ���0
+// p1、p2-数组元素指针
+// 作用：比较整形大小, elem1指向的元素大于elem2指向的元素就返回>0的数字，相反则返回<0的数组，相同就返回0
 int cmp_int(const void * elem1, const void* elem2)
 {
 	return *(int*)elem1 - *(int*)elem2;
@@ -49,13 +49,13 @@ int main()
 	int width = sizeof(arr[0]);
 	int i = 0;
 
-	my_bubble_sort(arr, num,width,cmp_int);
+	my_bubble_sort(arr, num, width, cmp_int);
 
 	for(i=0;i< num;i++)
 	{
 		printf("%d ",arr[i]);
 	}
-	printf("\n");
+	printf("\n"); // 输出 1 2 3 4 5 6 7 8 9
 
 	return 0;
 }
