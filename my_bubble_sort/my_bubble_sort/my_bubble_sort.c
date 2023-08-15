@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS 1
+// #define _CRT_SECURE_NO_WARNINGS 1
 
 #include<stdio.h>
 
@@ -35,7 +35,7 @@ void my_bubble_sort(void *base, size_t num, size_t width, int (*compare)(const v
 	}
 }
 
-// p1、p2-数组元素指针
+// elem1、elem2-数组元素指针
 // 作用：比较整形大小, elem1指向的元素大于elem2指向的元素就返回>0的数字，相反则返回<0的数组，相同就返回0
 int cmp_int(const void * elem1, const void* elem2)
 {
