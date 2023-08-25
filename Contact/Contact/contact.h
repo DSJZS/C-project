@@ -12,6 +12,26 @@
 #include<string.h>
 #include<time.h>
 
+enum Option
+{
+	EXIT,
+	ADD,
+	DEL,
+	SEARCH,
+	MODIFY,
+	SHOW,
+	SORT
+};
+
+enum SortOption
+{
+	SORT_CANCLE,
+	SORT_BY_NAME,
+	SORT_BY_AGE,
+	SORT_BY_SEX,
+	SORT_BY_TIME
+};
+
 struct PeoInfo
 {
 	char name[MAX_NAME];	// 名字
@@ -28,10 +48,19 @@ struct Contact
 	struct PeoInfo data[MAX_PEO];	// 存放记录人信息
 };
 
-//初始化函数
+//初始化通讯录函数
 void InitContact(struct Contact* ps);
-//增加通讯录函数
+//增加通讯录好友函数
 void AddContact(struct Contact* ps);
+//删除通讯录好友函数
+void DelContact(struct Contact* ps);
+//查找通讯录好友函数
+int SearchContact(const struct Contact* ps);
+//修改通讯录好友函数
+void ModifyContact(struct Contact* ps);
 //显示通讯录记录人信息
 void ShowConact(const struct Contact* ps);
+//排序通讯录记录人信息
+void SortContact(struct Contact* ps);
+
 #endif
