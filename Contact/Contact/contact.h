@@ -11,7 +11,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
-
+// 主界面功能
 enum Option
 {
 	EXIT,
@@ -22,7 +22,7 @@ enum Option
 	SHOW,
 	SORT
 };
-
+// 排序界面功能
 enum SortOption
 {
 	SORT_CANCLE,
@@ -32,6 +32,7 @@ enum SortOption
 	SORT_BY_TIME
 };
 
+// 人员信息类型
 struct PeoInfo
 {
 	char name[MAX_NAME];	// 名字
@@ -42,6 +43,7 @@ struct PeoInfo
 	struct tm* time;		// 添加时间
 };
 
+// 通讯录类型
 struct Contact
 {
 	int num;	// 存放记录的人数
@@ -55,7 +57,7 @@ void AddContact(struct Contact* ps);
 //删除通讯录好友函数
 void DelContact(struct Contact* ps);
 //查找通讯录好友函数
-int SearchContact(const struct Contact* ps);
+void SearchContact(const struct Contact* ps);
 //修改通讯录好友函数
 void ModifyContact(struct Contact* ps);
 //显示通讯录记录人信息

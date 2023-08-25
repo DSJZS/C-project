@@ -1,13 +1,13 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
 #include "contact.h"
-
+// 初始化
 void InitContact(struct Contact* ps)
 {
 	memset(ps->data, 0 ,sizeof(ps->data));
 	ps->num = 0;
 }
-
+// 增加
 void AddContact(struct Contact* ps)
 {
 	if(ps->num == MAX_PEO)
@@ -31,11 +31,16 @@ void AddContact(struct Contact* ps)
 		printf("输入完毕\n");
 	}
 }
-
+// 删除
 void DelContact(struct Contact* ps)
 {
 	char DelName[MAX_NAME] = {0};
 	int i = 0;
+	if(ps->num == 0)
+	{
+		printf("当前通讯录为空，请添加好友信息\n");
+		return;
+	}
 	printf("输入删除好友名字\n:>");
 	scanf("%s", DelName);
 	for(i=0;i<ps->num;i++)
@@ -55,42 +60,69 @@ void DelContact(struct Contact* ps)
 	if(i == ps->num)
 		printf("删除失败，原因：查无此人\n");
 }
-
-int SearchContact(const struct Contact* ps)
+// 查找
+int find_by_name(const struct Contact* ps,char* SearchName)
 {
-	char SearchName[MAX_NAME] = {0};
 	int i = 0;
-	printf("输入好友姓名\n:>");
-	scanf("%s", SearchName);
 	for(i=0;i<ps->num;i++)
 	{
 		if( !(strcmp(ps->data[i].name,SearchName)) )
 		{
-			printf("%20s\t%4s\t%5s\t%12s\t%20s\t%s\n","名字","年龄","性别","电话","地址","添加日期");
-			printf("%20s\t%4d\t%5s\t%12s\t%20s\t%d.%2d.%2d\n",
-				ps->data[i].name,
-				ps->data[i].age,
-				ps->data[i].sex,
-				ps->data[i].tele,
-				ps->data[i].addr,
-				ps->data[i].time->tm_year+1900,
-				ps->data[i].time->tm_mon+1,
-				ps->data[i].time->tm_mday);
 			return i;
 		}
 	}
-	if(i == ps->num)
-		printf("查无此人\n");
 	return -1;
 }
-
+void SearchContact(const struct Contact* ps)
+{
+	char SearchName[MAX_NAME] = {0};
+	int pos = 0;
+	if(ps->num == 0)
+	{
+		printf("当前通讯录为空，请添加好友信息\n");
+		return;
+	}
+	printf("输入好友姓名\n:>");
+	scanf("%s", SearchName);
+	pos = find_by_name(ps,SearchName);
+	
+	if(pos == -1)
+		printf("查无此人\n");
+	else
+	{
+		printf("%20s\t%4s\t%5s\t%12s\t%20s\t%s\n","名字","年龄","性别","电话","地址","添加日期");
+		printf("%20s\t%4d\t%5s\t%12s\t%20s\t%d.%2d.%2d\n",
+			ps->data[pos].name,
+			ps->data[pos].age,
+			ps->data[pos].sex,
+			ps->data[pos].tele,
+			ps->data[pos].addr,
+			ps->data[pos].time->tm_year+1900,
+			ps->data[pos].time->tm_mon+1,
+			ps->data[pos].time->tm_mday);
+	}
+	
+}
+// 修改
 void ModifyContact(struct Contact* ps)
 {
-	int ret = SearchContact(ps);
+	int pos = 0;
 	char input = 0;
 	int tmp = ps->num;
-	if(ret == -1)
+	char ModifyName[MAX_NAME] = {0};
+	if(ps->num == 0)
+	{
+		printf("当前通讯录为空，请添加好友信息\n");
 		return;
+	}
+	printf("请输入要修改好友的姓名\n:>");
+	scanf("%s", ModifyName);
+	pos = find_by_name(ps,ModifyName);
+	if(pos == -1)
+	{
+		printf("查无此人\n");
+		return;
+	}
 	else
 	{
 		do
@@ -102,7 +134,7 @@ void ModifyContact(struct Contact* ps)
 			{
 			case 'y':
 			case 'Y':
-				ps->num = ret;
+				ps->num = pos;
 				AddContact(ps);
 				ps->num = tmp;
 				printf("已修改\n");
@@ -117,7 +149,7 @@ void ModifyContact(struct Contact* ps)
 		}while(1);
 	}
 }
-
+// 显示
 void ShowConact(const struct Contact* ps)
 {
 	if(ps->num == 0)
@@ -142,7 +174,7 @@ void ShowConact(const struct Contact* ps)
 		}
 	}
 }
-
+// 排序
 void SortContactMenu()	// 显示菜单
 {
 	printf("------------------------------\n");
@@ -185,6 +217,11 @@ int sort_by_time(const void* ps1, const void* ps2)
 void SortContact(struct Contact* ps)
 {
 	int input = 0;	// 存放键盘输入信息
+	if(ps->num == 0)
+	{
+		printf("当前通讯录为空，请添加好友信息\n");
+		return;
+	}
 	do
 	{
 		SortContactMenu();
