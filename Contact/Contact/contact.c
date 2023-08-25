@@ -61,7 +61,7 @@ void DelContact(struct Contact* ps)
 		printf("删除失败，原因：查无此人\n");
 }
 // 查找
-int find_by_name(const struct Contact* ps,char* SearchName)
+static int find_by_name(const struct Contact* ps,char* SearchName)
 {
 	int i = 0;
 	for(i=0;i<ps->num;i++)
@@ -175,7 +175,7 @@ void ShowConact(const struct Contact* ps)
 	}
 }
 // 排序
-void SortContactMenu()	// 显示菜单
+static void SortContactMenu()	// 显示菜单
 {
 	printf("------------------------------\n");
 	printf("* 0.取消排序				  \n");
@@ -186,19 +186,19 @@ void SortContactMenu()	// 显示菜单
 	printf("------------------------------\n");
 	printf("输入数字选择(0-4)\n:>");
 }
-int sort_by_name(const void* ps1, const void* ps2)
+static int sort_by_name(const void* ps1, const void* ps2)
 {
 	return strcmp(((struct PeoInfo*)ps1)->name,((struct PeoInfo*)ps2)->name);
 }
-int sort_by_age(const void* ps1, const void* ps2)
+static int sort_by_age(const void* ps1, const void* ps2)
 {
 	return ((struct PeoInfo*)ps1)->age - ((struct PeoInfo*)ps2)->age;
 }
-int sort_by_sex(const void* ps1, const void* ps2)
+static int sort_by_sex(const void* ps1, const void* ps2)
 {
 	return strcmp(((struct PeoInfo*)ps1)->sex,((struct PeoInfo*)ps2)->sex);
 }
-int sort_by_time(const void* ps1, const void* ps2)
+static int sort_by_time(const void* ps1, const void* ps2)
 {
 	int ret = 0;
 	if(!(ret = (((struct PeoInfo*)ps1)->time->tm_year-((struct PeoInfo*)ps2)->time->tm_year)))
