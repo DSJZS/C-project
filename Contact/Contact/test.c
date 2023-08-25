@@ -12,7 +12,7 @@ void menu()	// 显示菜单
 	printf("* 3.删除指定名字的好友信息    \n");
 	printf("* 4.查找好友信息  			  \n");
 	printf("* 5.修改好友信息			  \n");
-	printf("* 6.打压好友信息			  \n");
+	printf("* 6.显示好友信息			  \n");
 	printf("* 7.排序好友信息			  \n");
 	printf("------------------------------\n");
 	printf("输入数字选择(0-7)\n:>");
@@ -46,6 +46,7 @@ int main()
 		case 5:
 			break;
 		case 6:
+			ShowConact(&con);
 			break;
 		case 7:
 			break;

@@ -10,6 +10,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<time.h>
 
 struct PeoInfo
 {
@@ -18,6 +19,7 @@ struct PeoInfo
 	char sex[MAX_SEX];		// 性别
 	char tele[MAX_TELE];	// 电话
 	char addr[MAX_ADDR];	// 地址
+	struct tm* time;		// 添加时间
 };
 
 struct Contact
@@ -30,6 +32,6 @@ struct Contact
 void InitContact(struct Contact* ps);
 //增加通讯录函数
 void AddContact(struct Contact* ps);
-
-
+//显示通讯录记录人信息
+void ShowConact(const struct Contact* ps);
 #endif
