@@ -1,16 +1,26 @@
 #ifndef __CONTACT_H__
 #define __CONTACT_H__
 
-#define MAX_PEO 1000	// 通讯录最大人数
-#define MAX_NAME 20		// 人名最大字符数
-#define MAX_SEX 5		// 性别最大字符数
-#define MAX_TELE 12		// 电话最大字符数
-#define MAX_ADDR 30		// 地址最大字符数
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
+
+// 通讯录最大人数
+#define MAX_PEO 1000	
+// 人名最大字符数
+#define MAX_NAME 20		
+// 性别最大字符数
+#define MAX_SEX 5		
+// 电话最大字符数
+#define MAX_TELE 12		
+// 地址最大字符数
+#define MAX_ADDR 30		
+// 通讯录一开始默认开辟能够存放 PEO_INIT 个好友信息的空间
+#define PEO_INIT 3
+// 开辟好友信息的空间不够时默认开辟能够存放 PEO_ADD 个好友信息的空间
+#define PEO_ADD 2
+
 // 主界面功能
 enum Option
 {
@@ -47,7 +57,8 @@ struct PeoInfo
 struct Contact
 {
 	int num;	// 存放记录的人数
-	struct PeoInfo data[MAX_PEO];	// 存放记录人信息
+	int maxNum; // 当前能存放的最大人数
+	struct PeoInfo* data;	// 存放记录人信息
 };
 
 //初始化通讯录函数

@@ -1,11 +1,35 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
 #include "contact.h"
+// 查找个人信息位置
+static int find_by_name(const struct Contact* ps,char* SearchName)
+{
+	int i = 0;
+	for(i=0;i<ps->num;i++)
+	{
+		if( !(strcmp(ps->data[i].name,SearchName)) )
+		{
+			return i;
+		}
+	}
+	return -1;
+}
 // 初始化
 void InitContact(struct Contact* ps)
 {
-	memset(ps->data, 0 ,sizeof(ps->data));
+	struct PeoInfo* ptr = (struct PeoInfo*)malloc(PEO_INIT * sizeof(struct PeoInfo));
+	if(ptr == NULL)
+	{
+		printf("init error\n");
+		return;
+	}
+	else
+	{
+		ps->data = ptr;
+	}
+	memset(ps->data, 0 ,(PEO_INIT * sizeof(struct PeoInfo)) );
 	ps->num = 0;
+	ps->maxNum = PEO_INIT;
 }
 // 增加
 void AddContact(struct Contact* ps)
@@ -15,6 +39,24 @@ void AddContact(struct Contact* ps)
 	else
 	{
 		time_t seconds;
+		if(ps->num == ps->maxNum)
+		{
+			struct PeoInfo* ptr = NULL;
+			if( (ps->maxNum+PEO_ADD)>MAX_PEO )
+				ptr = (struct PeoInfo*)realloc(ps->data,(MAX_PEO) * sizeof(struct PeoInfo));
+			else
+				ptr = (struct PeoInfo*)realloc(ps->data,(ps->maxNum+PEO_ADD) * sizeof(struct PeoInfo));
+			if(ptr == NULL)
+			{
+				printf("add error\n");
+				return;
+			}
+			else
+			{
+				ps->data = ptr;
+				ps->maxNum += PEO_ADD;
+			}
+		}
 		printf("(1/5)请输入名字:>");
 		scanf("%s", (ps->data[ps->num].name) );
 		printf("(2/5)请输入年龄:>");
@@ -35,7 +77,7 @@ void AddContact(struct Contact* ps)
 void DelContact(struct Contact* ps)
 {
 	char DelName[MAX_NAME] = {0};
-	int i = 0;
+	int pos = 0;
 	if(ps->num == 0)
 	{
 		printf("当前通讯录为空，请添加好友信息\n");
@@ -43,36 +85,32 @@ void DelContact(struct Contact* ps)
 	}
 	printf("输入删除好友名字\n:>");
 	scanf("%s", DelName);
-	for(i=0;i<ps->num;i++)
+	pos = find_by_name(ps,DelName);
+	if(pos == -1)
+		printf("删除失败，原因：查无此人\n");
+	else
 	{
-		if( !(strcmp(ps->data[i].name,DelName)) )
+		struct PeoInfo* ptr = NULL;
+		for(;pos< (ps->num-1) ;pos++)
 		{
-
-			for(;i<ps->num-1;i++)
-			{
-				ps->data[i] = ps->data[i+1];
-			}
-			ps->num--;
-			printf("删除成功\n");
+			ps->data[pos] = ps->data[pos+1];
+		}
+		ptr =(struct PeoInfo*)realloc(ps->data,(--(ps->num)) * sizeof(struct PeoInfo));
+		if(ptr == NULL)
+		{
+			printf("del error\n");
 			return;
 		}
-	}
-	if(i == ps->num)
-		printf("删除失败，原因：查无此人\n");
-}
-// 查找
-static int find_by_name(const struct Contact* ps,char* SearchName)
-{
-	int i = 0;
-	for(i=0;i<ps->num;i++)
-	{
-		if( !(strcmp(ps->data[i].name,SearchName)) )
+		else
 		{
-			return i;
+			ps->data = ptr;
+			printf("删除成功\n");
 		}
 	}
-	return -1;
+
+			
 }
+// 查找
 void SearchContact(const struct Contact* ps)
 {
 	char SearchName[MAX_NAME] = {0};

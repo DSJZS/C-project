@@ -3,7 +3,7 @@
 
 #include"contact.h"
 
-void menu()	// 显示菜单
+void menu(const struct Contact* ps)	// 显示菜单
 {
 	printf("------------------------------\n");
 	printf("* 0.退出通讯录				  \n");
@@ -14,6 +14,8 @@ void menu()	// 显示菜单
 	printf("* 5.显示好友信息			  \n");
 	printf("* 6.排序好友信息			  \n");
 	printf("------------------------------\n");
+	printf("当前好友数量(%4d/%4d)\n",ps->num,MAX_PEO);
+	// printf("test:%d\n",ps->maxNum);
 	printf("输入数字选择(0-7)\n:>");
 }
 
@@ -26,7 +28,7 @@ int main()
 
 	do
 	{
-		menu();
+		menu(&con);
 		scanf("%d", &input);
 		switch(input)
 		{
@@ -58,5 +60,7 @@ int main()
 		system("pause");
 		system("cls");
 	}while(input);
+	free(con.data);
+	con.data = NULL;
 	return 0;
 }
