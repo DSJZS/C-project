@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
 #include "contact.h"
-// 查找个人信息位置
+// 查找个人信息位置返回其下标
 static int find_by_name(const struct Contact* ps,char* SearchName)
 {
 	int i = 0;
@@ -14,13 +14,114 @@ static int find_by_name(const struct Contact* ps,char* SearchName)
 	}
 	return -1;
 }
+// 用于SortContact函数排序个人信息
+static void sort_contact_menu()	// 显示菜单
+{
+	printf("------------------------------\n");
+	printf("* 0.取消排序				  \n");
+	printf("* 1.按名字排序				  \n");
+	printf("* 2.按年龄排序				  \n");
+	printf("* 3.按性别排序	  			  \n");
+	printf("------------------------------\n");
+	printf("输入数字选择(0-3)\n:>");
+}
+static int sort_by_name(const void* ps1, const void* ps2)
+{
+	return strcmp(((struct PeoInfo*)ps1)->name,((struct PeoInfo*)ps2)->name);
+}
+static int sort_by_age(const void* ps1, const void* ps2)
+{
+	return ((struct PeoInfo*)ps1)->age - ((struct PeoInfo*)ps2)->age;
+}
+static int sort_by_sex(const void* ps1, const void* ps2)
+{
+	return strcmp(((struct PeoInfo*)ps1)->sex,((struct PeoInfo*)ps2)->sex);
+}
+// 检查通讯录是否容量已满
+static int check_capacity(struct Contact* ps)
+{
+	if(ps->num == ps->capacity)
+		return 1;
+	else
+		return 0;
+}
+// 增加容量
+static void increase_capacity(struct Contact* ps)
+{
+	struct PeoInfo* ptr = NULL;
+	if( (ps->capacity+PEO_ADD)>MAX_PEO )
+		ptr = (struct PeoInfo*)realloc(ps->data,(MAX_PEO) * sizeof(struct PeoInfo));
+	else
+		ptr = (struct PeoInfo*)realloc(ps->data,(ps->capacity+PEO_ADD) * sizeof(struct PeoInfo));
+	if(ptr == NULL)
+	{
+		printf("add error\n");
+		return;
+	}
+	else
+	{
+		ps->data = ptr;
+		ps->capacity += PEO_ADD;
+	}
+}
+// 保存通讯录
+static void save_contact(struct Contact* ps)
+{
+	FILE* pfWrite = fopen("PeoInfo.txt","w");
+	if(pfWrite == NULL)
+	{
+		printf("close fopen error\n");
+		return;
+	}
+	else
+	{
+		int i = 0;
+		for(i=0;i<(ps->num);i++)
+		{
+			fprintf(pfWrite, "%s %d %s %s %s\n",
+				ps->data[i].name,
+				ps->data[i].age,
+				ps->data[i].sex,
+				ps->data[i].tele,
+				ps->data[i].addr);
+		}
+	}
+	fclose(pfWrite);
+	pfWrite=NULL;
+}
+// 加载通讯录
+static void load_contact(struct Contact* ps)
+{
+	FILE* pfRead = fopen("PeoInfo.txt","r");
+	if(pfRead == NULL)
+	{
+		printf("init fopen error\n");
+		return;
+	}
+	else
+	{
+		while(EOF != fscanf(pfRead,"%s %d %s %s %s\n",
+			ps->data[ps->num].name,
+			&ps->data[ps->num].age,
+			ps->data[ps->num].sex,
+			ps->data[ps->num].tele,
+			ps->data[ps->num].addr))
+		{
+			ps->num++;
+			check_capacity(ps);
+		}
+	}
+	fclose(pfRead);
+	pfRead=NULL;
+}
 // 初始化
 void InitContact(struct Contact* ps)
 {
 	struct PeoInfo* ptr = (struct PeoInfo*)malloc(PEO_INIT * sizeof(struct PeoInfo));
+	
 	if(ptr == NULL)
 	{
-		printf("init error\n");
+		printf("init malloc error\n");
 		return;
 	}
 	else
@@ -29,7 +130,8 @@ void InitContact(struct Contact* ps)
 	}
 	memset(ps->data, 0 ,(PEO_INIT * sizeof(struct PeoInfo)) );
 	ps->num = 0;
-	ps->maxNum = PEO_INIT;
+	ps->capacity = PEO_INIT;
+	load_contact(ps);
 }
 // 增加
 void AddContact(struct Contact* ps)
@@ -38,24 +140,9 @@ void AddContact(struct Contact* ps)
 		printf("通讯录已满，无法存放新的好友的信息\n");
 	else
 	{
-		time_t seconds;
-		if(ps->num == ps->maxNum)
+		if(check_capacity(ps))
 		{
-			struct PeoInfo* ptr = NULL;
-			if( (ps->maxNum+PEO_ADD)>MAX_PEO )
-				ptr = (struct PeoInfo*)realloc(ps->data,(MAX_PEO) * sizeof(struct PeoInfo));
-			else
-				ptr = (struct PeoInfo*)realloc(ps->data,(ps->maxNum+PEO_ADD) * sizeof(struct PeoInfo));
-			if(ptr == NULL)
-			{
-				printf("add error\n");
-				return;
-			}
-			else
-			{
-				ps->data = ptr;
-				ps->maxNum += PEO_ADD;
-			}
+			increase_capacity(ps);
 		}
 		printf("(1/5)请输入名字:>");
 		scanf("%s", (ps->data[ps->num].name) );
@@ -67,8 +154,6 @@ void AddContact(struct Contact* ps)
 		scanf("%s", (ps->data[ps->num].tele) );
 		printf("(5/5)请输入地址:>");
 		scanf("%s", (ps->data[ps->num].addr) );
-		time(&seconds);
-		ps->data[ps->num].time = localtime(&seconds);
 		ps->num++;
 		printf("输入完毕\n");
 	}
@@ -128,16 +213,13 @@ void SearchContact(const struct Contact* ps)
 		printf("查无此人\n");
 	else
 	{
-		printf("%20s\t%4s\t%5s\t%12s\t%20s\t%s\n","名字","年龄","性别","电话","地址","添加日期");
-		printf("%20s\t%4d\t%5s\t%12s\t%20s\t%d.%2d.%2d\n",
+		printf("%20s\t%4s\t%5s\t%12s\t%20s\n","名字","年龄","性别","电话","地址");
+		printf("%20s\t%4d\t%5s\t%12s\t%20s\n",
 			ps->data[pos].name,
 			ps->data[pos].age,
 			ps->data[pos].sex,
 			ps->data[pos].tele,
-			ps->data[pos].addr,
-			ps->data[pos].time->tm_year+1900,
-			ps->data[pos].time->tm_mon+1,
-			ps->data[pos].time->tm_mday);
+			ps->data[pos].addr);
 	}
 	
 }
@@ -197,61 +279,19 @@ void ShowConact(const struct Contact* ps)
 	else
 	{
 		int i = 0;
-		printf("%20s\t%4s\t%5s\t%12s\t%20s\t%s\n","名字","年龄","性别","电话","地址","添加日期");
+		printf("%20s\t%4s\t%5s\t%12s\t%20s\n","名字","年龄","性别","电话","地址");
 		for(i=0;i<ps->num;i++)
 		{
-			printf("%20s\t%4d\t%5s\t%12s\t%20s\t%d.%2d.%2d\n",
+			printf("%20s\t%4d\t%5s\t%12s\t%20s\n",
 				ps->data[i].name,
 				ps->data[i].age,
 				ps->data[i].sex,
 				ps->data[i].tele,
-				ps->data[i].addr,
-				ps->data[i].time->tm_year+1900,
-				ps->data[i].time->tm_mon+1,
-				ps->data[i].time->tm_mday);
+				ps->data[i].addr);
 		}
 	}
 }
 // 排序
-static void SortContactMenu()	// 显示菜单
-{
-	printf("------------------------------\n");
-	printf("* 0.取消排序				  \n");
-	printf("* 1.按名字排序				  \n");
-	printf("* 2.按年龄排序				  \n");
-	printf("* 3.按性别排序	  			  \n");
-	printf("* 4.按添加时间排序			  \n");
-	printf("------------------------------\n");
-	printf("输入数字选择(0-4)\n:>");
-}
-static int sort_by_name(const void* ps1, const void* ps2)
-{
-	return strcmp(((struct PeoInfo*)ps1)->name,((struct PeoInfo*)ps2)->name);
-}
-static int sort_by_age(const void* ps1, const void* ps2)
-{
-	return ((struct PeoInfo*)ps1)->age - ((struct PeoInfo*)ps2)->age;
-}
-static int sort_by_sex(const void* ps1, const void* ps2)
-{
-	return strcmp(((struct PeoInfo*)ps1)->sex,((struct PeoInfo*)ps2)->sex);
-}
-static int sort_by_time(const void* ps1, const void* ps2)
-{
-	int ret = 0;
-	if(!(ret = (((struct PeoInfo*)ps1)->time->tm_year-((struct PeoInfo*)ps2)->time->tm_year)))
-	{
-		if(!(ret = (((struct PeoInfo*)ps1)->time->tm_mon-((struct PeoInfo*)ps2)->time->tm_mon)))
-		{
-			ret = (((struct PeoInfo*)ps1)->time->tm_mday-((struct PeoInfo*)ps2)->time->tm_mday);
-			return ret;
-		}
-		else
-			return ret;
-	}
-	else
-		return ret;
-}
 void SortContact(struct Contact* ps)
 {
 	int input = 0;	// 存放键盘输入信息
@@ -262,7 +302,7 @@ void SortContact(struct Contact* ps)
 	}
 	do
 	{
-		SortContactMenu();
+		sort_contact_menu();
 		scanf("%d", &input);
 		switch(input)
 		{
@@ -278,9 +318,6 @@ void SortContact(struct Contact* ps)
 		case SORT_BY_SEX:
 			qsort(ps->data,ps->num,sizeof(ps->data[0]),sort_by_sex);
 			return;
-		case SORT_BY_TIME:
-			qsort(ps->data,ps->num,sizeof(ps->data[0]),sort_by_time);
-			return;
 		default:
 			printf("输入错误，请输入0-4的数字选项\n");
 			break;
@@ -289,6 +326,14 @@ void SortContact(struct Contact* ps)
 		system("cls");
 	}while(input);
 }
+// 关闭
+void CloseContact(struct Contact* ps)
+{
+	save_contact(ps);
+	
 
+	free(ps->data);
+	ps->data=NULL;
+}
 
 

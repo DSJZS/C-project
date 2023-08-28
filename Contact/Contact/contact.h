@@ -39,7 +39,6 @@ enum SortOption
 	SORT_BY_NAME,
 	SORT_BY_AGE,
 	SORT_BY_SEX,
-	SORT_BY_TIME
 };
 
 // 人员信息类型
@@ -50,14 +49,13 @@ struct PeoInfo
 	char sex[MAX_SEX];		// 性别
 	char tele[MAX_TELE];	// 电话
 	char addr[MAX_ADDR];	// 地址
-	struct tm* time;		// 添加时间
 };
 
 // 通讯录类型
 struct Contact
 {
 	int num;	// 存放记录的人数
-	int maxNum; // 当前能存放的最大人数
+	int capacity; // 当前能存放的最大人数
 	struct PeoInfo* data;	// 存放记录人信息
 };
 
@@ -71,9 +69,11 @@ void DelContact(struct Contact* ps);
 void SearchContact(const struct Contact* ps);
 //修改通讯录好友函数
 void ModifyContact(struct Contact* ps);
-//显示通讯录记录人信息
+//显示通讯录记录人信息函数
 void ShowConact(const struct Contact* ps);
-//排序通讯录记录人信息
+//排序通讯录记录人信息函数
 void SortContact(struct Contact* ps);
+//关闭通讯录函数
+void CloseContact(struct Contact* ps);
 
 #endif

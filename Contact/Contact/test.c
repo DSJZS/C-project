@@ -33,6 +33,7 @@ int main()
 		switch(input)
 		{
 		case EXIT:
+			CloseContact(&con);
 			printf("³É¹¦ÍË³ö\n");
 			break;
 		case ADD:
@@ -60,7 +61,6 @@ int main()
 		system("pause");
 		system("cls");
 	}while(input);
-	free(con.data);
-	con.data = NULL;
+	
 	return 0;
 }
