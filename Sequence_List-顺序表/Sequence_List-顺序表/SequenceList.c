@@ -225,6 +225,18 @@ Status Cal_Capacity(SqList* L)
 	return ERROR;
 }
 
+// 通过判断函数查找顺序表中的一个元素，如果有则返回该元素的指针，如果没有则返回NULL
+void* Locate_Elem_SqList(SqList* L, int (*cmp)(void* val))
+{
+	int i = 0;
+	for(i=0;i<L->current;i++)
+	{
+		if(cmp(Get_Elem_SqList(L,i)))
+			return Get_Elem_SqList(L,i);
+	}
+	return NULL;
+}
+
 // L 为需要初始化的顺序表的指针，n为元素大小
 Status InitList_SqList(SqList* L, int elemSize)
 {
@@ -257,6 +269,7 @@ Status InitList_SqList(SqList* L, int elemSize)
 	L->push_back = Push_Back_SqList;
 	L->front_inset = Front_Inset_SqList;
 	L->cal_capacity = Cal_Capacity;
+	L->locate = Locate_Elem_SqList;
 
 	return OK;	//	初始化成功
 }

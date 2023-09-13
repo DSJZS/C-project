@@ -25,10 +25,12 @@ typedef struct SqList
 	void (*destory)( struct SqList*);
 	// 清空
 	void (*clear)( struct SqList*);
-	// 通过下标寻找某一个元素
+	// 通过下标获取某一个元素
 	void* (*get)(  struct SqList*, int);
-	// 查找顺序表中的一个元素，如果有则返回该元素的指针，如果没有则返回NULL
+	// 通过值顺序表中的一个元素，如果有则返回该元素的指针，如果没有则返回NULL
 	void* (*find)(  struct SqList*, const void*);
+	// 通过判断函数查找顺序表中的一个元素，如果有则返回该元素的指针，如果没有则返回NULL
+	void* (*locate)(  struct SqList*, int (*)(void* val));
 	// 返回指向第一个元素的指针
 	void* (*front)( struct SqList*);
 	// 返回指向最后一个元素的指针
@@ -87,8 +89,10 @@ void* Get_Elem_SqList(SqList* L,int index);
 void* Get_Front_Elem_SqList(SqList* L);
 // 返回指向最后一个元素的指针
 void* Get_Back_Elem_SqList(SqList* L);
-// 查找顺序表中的一个元素，如果有则返回该元素的指针，如果没有则返回NULL
+// 通过值查找顺序表中的一个元素，如果有则返回该元素的指针，如果没有则返回NULL
 void* Find_Elem_SqList(SqList* L, const void* val);
+// 通过判断函数查找顺序表中的一个元素，如果有则返回该元素的指针，如果没有则返回NULL
+void* Locate_Elem_SqList(SqList* L, int (*cmp)(void* val));
 // 删除顺序表最后一个元素
 Status Pop_Back_SqList(SqList* L);
 // 通过下标删除顺序表的某一个元素
@@ -101,6 +105,7 @@ Status Push_Back_SqList(SqList* L, void* val);
 Status Front_Inset_SqList(SqList* L, void* val, int index);
 // 检查最多元素个数是否与当前元素个数一致，如果不一致，使它们相等
 Status Cal_Capacity(SqList* L);
+
 
 
 #endif
