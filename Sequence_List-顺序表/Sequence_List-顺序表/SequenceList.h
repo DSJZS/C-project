@@ -103,7 +103,8 @@ Status Erase_Mul_Elem_SqList(SqList* L, int left, int right);
 Status Push_Back_SqList(SqList* L, void* val);
 // 在下标指向的元素之前插入一个元素
 Status Front_Inset_SqList(SqList* L, void* val, int index);
-// 检查最多元素个数是否与当前元素个数一致，如果不一致，使它们相等
+// 检查最多元素个数是否与当前元素个数一致，如果不一致，使它们相等,
+// 但如果目前元素个数为0时，最多元素个数会为1
 Status Cal_Capacity(SqList* L);
 
 

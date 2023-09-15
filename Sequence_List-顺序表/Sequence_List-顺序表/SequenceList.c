@@ -147,6 +147,7 @@ Status Erase_Elem_SqList(SqList* L, int index)
 		if( OVERFLOW == swap(Get_Elem_SqList(L,i),Get_Elem_SqList(L,i+1),L->elemSize))
 			return ERROR;
 	}
+	--(L->current);
 	return OK;
 }
 
@@ -216,10 +217,18 @@ Status Cal_Capacity(SqList* L)
 		return OK;
 	else
 	{
-		void* tmp = (void*)realloc(L->data,L->current * L->elemSize);
+		void* tmp = NULL;
+		if(L->current == 0)
+			tmp = (void*)realloc(L->data,L->elemSize);
+		else
+			tmp = (void*)realloc(L->data,L->current * L->elemSize);
 		if(tmp == NULL)
 			return OVERFLOW;
 		L->data = tmp;
+		if(L->current == 0)
+			L->capacity = 1;
+		else
+			L->capacity = L->current;
 		return OK;
 	}
 	return ERROR;
