@@ -61,9 +61,12 @@ int Pop_SqS(SqStack* S, SElemType* e)
 	return 1;
 }
 
-SElemType GetTop_SqS(SqStack* S, SElemType* e)
+int GetTop_SqS(SqStack* S, SElemType* e)
 {
 	if(e)
+	{
 		*e = *(S->top - 1);
-	return *(S->top - 1);
+		return 1;
+	}
+	return 0£»
 }

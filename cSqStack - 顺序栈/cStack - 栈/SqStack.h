@@ -26,6 +26,6 @@ void DestroyStack_SqS(SqStack* S);
 int Push_SqS(SqStack* S, SElemType e);
 // 顺序栈出栈,e 为NULL时仅删除栈顶元素
 int Pop_SqS(SqStack* S, SElemType* e);
-// 返回顺序栈顶部的元素，同时赋值到 e指向的元素，如果 e 为NULL，则只返回
-SElemType GetTop_SqS(SqStack* S, SElemType* e);
+// 将顺序栈顶部的元素赋值到 e指向的元素
+int GetTop_SqS(SqStack* S, SElemType* e);
 #endif
