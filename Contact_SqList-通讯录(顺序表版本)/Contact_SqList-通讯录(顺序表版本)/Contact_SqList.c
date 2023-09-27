@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
-#include "contact.h"
+#include "contact_SqList.h"
 // 查找个人信息位置返回其下标
 static int find_by_name(const struct Contact* ps,char* SearchName)
 {
@@ -119,7 +119,7 @@ static void load_contact(struct Contact* ps)
 void InitContact(struct Contact* ps)
 {
 	struct PeoInfo* ptr = (struct PeoInfo*)malloc(PEO_INIT * sizeof(struct PeoInfo));
-	
+
 	if(ptr == NULL)
 	{
 		printf("init malloc error\n");
@@ -194,7 +194,7 @@ void DelContact(struct Contact* ps)
 		}
 	}
 
-			
+
 }
 // 查找
 void SearchContact(const struct Contact* ps)
@@ -209,7 +209,7 @@ void SearchContact(const struct Contact* ps)
 	printf("输入好友姓名\n:>");
 	scanf("%s", SearchName);
 	pos = find_by_name(ps,SearchName);
-	
+
 	if(pos == -1)
 		printf("查无此人\n");
 	else
@@ -222,7 +222,7 @@ void SearchContact(const struct Contact* ps)
 			ps->data[pos].tele,
 			ps->data[pos].addr);
 	}
-	
+
 }
 // 修改
 void ModifyContact(struct Contact* ps)
@@ -331,7 +331,7 @@ void SortContact(struct Contact* ps)
 void CloseContact(struct Contact* ps)
 {
 	save_contact(ps);
-	
+
 
 	free(ps->data);
 	ps->data=NULL;

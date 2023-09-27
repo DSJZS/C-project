@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
 
-#include"contact.h"
+#include "contact_SqList.h"
 
 void menu(const struct Contact* ps)	// 显示菜单
 {
@@ -23,7 +23,7 @@ int main()
 {
 	int input = 0;	// 存放键盘输入信息
 	struct Contact con;	// 创建通讯录
-	
+
 	InitContact(&con);
 
 	do
@@ -61,6 +61,6 @@ int main()
 		system("pause");
 		system("cls");
 	}while(input);
-	
+
 	return 0;
 }
