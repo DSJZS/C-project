@@ -17,6 +17,8 @@ typedef struct SqQueue{
 
 // 初始化顺序队
 int InitQueue(SqQueue* Q, int capacity);
+// 清空顺序队
+void ClearQueue(SqQueue* Q);
 // 获得顺序队长度
 int GetLength(SqQueue* Q);
 // 顺序队入队

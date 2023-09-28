@@ -15,5 +15,6 @@ int main()
 	DeQueue(&Q, &i);
 	EnQueue(&Q, 5);
 	GetHead(&Q,&i);
+	ClearQueue(&Q);
 	return 0;
 }

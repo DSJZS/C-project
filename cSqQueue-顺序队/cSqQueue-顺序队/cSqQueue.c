@@ -50,3 +50,8 @@ void DestroyQueue(SqQueue* Q)
 	Q->Capacity = 0;
 	Q->front = Q->rear = 0;
 }
+
+void ClearQueue(SqQueue* Q)
+{
+	Q->front = Q->rear = 0;
+}
