@@ -6,15 +6,15 @@ int main()
 {
 	SqQueue Q;
 	int i = 0;
-	InitQueue(&Q,3);
-	EnQueue(&Q, 1);
-	EnQueue(&Q, 2);
-	EnQueue(&Q, 3);
-	DeQueue(&Q, &i);
-	EnQueue(&Q, 4);
-	DeQueue(&Q, &i);
-	EnQueue(&Q, 5);
-	GetHead(&Q,&i);
-	ClearQueue(&Q);
+	InitQueue_SqQ(&Q,3);
+	EnQueue_SqQ(&Q, 1);
+	EnQueue_SqQ(&Q, 2);
+	EnQueue_SqQ(&Q, 3);
+	DeQueue_SqQ(&Q, &i);
+	EnQueue_SqQ(&Q, 4);
+	DeQueue_SqQ(&Q, &i);
+	EnQueue_SqQ(&Q, 5);
+	GetHead_SqQ(&Q,&i);
+	ClearQueue_SqQ(&Q);
 	return 0;
 }

@@ -16,17 +16,18 @@ typedef struct SqQueue{
 }SqQueue;
 
 // 初始化顺序队
-int InitQueue(SqQueue* Q, int capacity);
+int InitQueue_SqQ(SqQueue* Q, int capacity);
 // 清空顺序队
-void ClearQueue(SqQueue* Q);
+void ClearQueue_SqQ(SqQueue* Q);
 // 获得顺序队长度
-int GetLength(SqQueue* Q);
+int GetLength_SqQ(SqQueue* Q);
 // 顺序队入队
-int EnQueue(SqQueue* Q, QElemType e);
+int EnQueue_SqQ(SqQueue* Q, QElemType e);
 // 顺序栈出队
-int DeQueue(SqQueue* Q, QElemType* e);
+int DeQueue_SqQ(SqQueue* Q, QElemType* e);
 // 获取头元素
-int GetHead(SqQueue* Q, QElemType* e);
+int GetHead_SqQ(SqQueue* Q, QElemType* e);
 // 删除顺序队
-void DestroyQueue(SqQueue* Q);;
+void DestroyQueue_SqQ(SqQueue* Q);
+
 #endif

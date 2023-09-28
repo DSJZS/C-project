@@ -2,7 +2,7 @@
 
 #include "cSqQueue.h"
 
-int InitQueue(SqQueue* Q, int capacity)
+int InitQueue_SqQ(SqQueue* Q, int capacity)
 {
 	Q->Capacity = capacity+1;
 	Q->data = (QElemType*)malloc(sizeof(QElemType)*(capacity+1));
@@ -12,12 +12,12 @@ int InitQueue(SqQueue* Q, int capacity)
 	return 1;
 }
 
-int GetLength(SqQueue* Q)
+int GetLength_SqQ(SqQueue* Q)
 {
 	return (Q->rear - Q->front + Q->Capacity) % Q->Capacity;
 }
 
-int EnQueue(SqQueue* Q, QElemType e)
+int EnQueue_SqQ(SqQueue* Q, QElemType e)
 {
 	if( (Q->rear+1)%Q->Capacity == Q->front )
 		return 0;
@@ -26,7 +26,7 @@ int EnQueue(SqQueue* Q, QElemType e)
 	return 1;
 }
 
-int DeQueue(SqQueue* Q, QElemType* e)
+int DeQueue_SqQ(SqQueue* Q, QElemType* e)
 {
 	if(Q->front == Q->rear)
 		return 0;
@@ -35,7 +35,7 @@ int DeQueue(SqQueue* Q, QElemType* e)
 	return 1;
 }
 
-int GetHead(SqQueue* Q, QElemType* e)
+int GetHead_SqQ(SqQueue* Q, QElemType* e)
 {
 	if(Q->front == Q->rear)
 		return 0;
@@ -43,7 +43,7 @@ int GetHead(SqQueue* Q, QElemType* e)
 	return 1;
 }
 
-void DestroyQueue(SqQueue* Q)
+void DestroyQueue_SqQ(SqQueue* Q)
 {
 	free(Q->data);
 	Q->data = NULL;
@@ -51,7 +51,7 @@ void DestroyQueue(SqQueue* Q)
 	Q->front = Q->rear = 0;
 }
 
-void ClearQueue(SqQueue* Q)
+void ClearQueue_SqQ(SqQueue* Q)
 {
 	Q->front = Q->rear = 0;
 }
