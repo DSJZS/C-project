@@ -49,3 +49,11 @@ int DeQueue_LQ(LinkQueue* Q, QElemType* e)
 		Q->rear = Q->front;
 	free(p);
 }
+
+int GetHead(LinkQueue* Q, QElemType* e)
+{
+	if(Q->front == Q->rear)
+		return 0;
+	*e = Q->front->next->data;
+	return 1;
+}
