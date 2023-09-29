@@ -106,5 +106,6 @@ int main()
 		system("pause");
 		system("cls");
 	} while (input);
+	DestroyStack_SqS(&SNum);
 	return 0;
 }
