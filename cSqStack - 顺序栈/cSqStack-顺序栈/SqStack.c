@@ -68,5 +68,5 @@ int GetTop_SqS(SqStack* S, SElemType* e)
 		*e = *(S->top - 1);
 		return 1;
 	}
-	return 0£»
+	return 0;
 }
