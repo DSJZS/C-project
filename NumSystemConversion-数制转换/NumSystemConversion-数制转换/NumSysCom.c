@@ -41,6 +41,7 @@ void printNum(SqStack* SNum)
 		Pop_SqS(SNum,&tmp);
 		printf("%c",tmp);
 	}
+	printf("\n");
 }
 
 int NumSysToNumSys(SqStack* SNum,int srcNumSys ,int destNumSys)
@@ -49,6 +50,7 @@ int NumSysToNumSys(SqStack* SNum,int srcNumSys ,int destNumSys)
 	int F = 0;	// 小数位
 	int iCount = 0;	//	有多少整数位
 	int fCount = 0;	//	有多少小数位
+	
 
 	char tmp = 0;
 	char strNum[CAPACITY+1] = "";
@@ -85,16 +87,19 @@ int NumSysToNumSys(SqStack* SNum,int srcNumSys ,int destNumSys)
 	tmp = 0;
 	if(fCount)
 	{
+		int i = 10;
 		strNum[tmp] = '.';
 		++tmp;
+		
 		do{
+			
 			if(( ((int)(F * destNumSys / pow(10,fCount)) % destNumSys) >= 0 ) && ( ((int)(F * destNumSys / pow(10,fCount)) % destNumSys) <= 9 ))
 				strNum[tmp] = (char)(((int)(F * destNumSys / pow(10,fCount)) % destNumSys)+48);
 			else 
 				strNum[tmp] = (char)(((int)(F * destNumSys / pow(10,fCount)) % destNumSys)+55);
-			F %=  (int)pow(10,fCount-1);
-			++tmp,--fCount;
-		}while(F);
+			F =  F * destNumSys % (int)pow(10,fCount);
+			++tmp,--i;
+		}while(F && i);
 		my_reverse(strNum);
 	}
 	do 
