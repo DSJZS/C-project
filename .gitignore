@@ -16,4 +16,5 @@
 *.exe
 *.log
 *.opensdf
+*.unsuccessfulbuild
 Test/
