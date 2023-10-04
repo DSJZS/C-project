@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "BinLinkList.h"
 
-typedef BiNode QElemType;
+typedef BiTree QElemType;
 
 typedef struct QNode{
 	QElemType data;		// Êý¾ÝÓò

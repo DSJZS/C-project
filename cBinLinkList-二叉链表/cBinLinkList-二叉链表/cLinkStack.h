@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include "BinLinkList.h"
 
-typedef BiNode SElemType;
+typedef BiTree SElemType;
 
 typedef struct StackNode{
 	SElemType data;
