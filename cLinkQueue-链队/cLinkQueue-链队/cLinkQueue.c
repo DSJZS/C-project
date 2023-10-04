@@ -25,6 +25,7 @@ int DestroyQueue_LQ(LinkQueue* Q)
 	}
 
 	Q->front = Q->rear = NULL;
+	return 1;
 }
 
 int EnQueue_LQ(LinkQueue* Q, QElemType e)
@@ -48,12 +49,21 @@ int DeQueue_LQ(LinkQueue* Q, QElemType* e)
 	if(Q->rear == p)
 		Q->rear = Q->front;
 	free(p);
+	return 1;
 }
 
-int GetHead(LinkQueue* Q, QElemType* e)
+int GetHead_LQ(LinkQueue* Q, QElemType* e)
 {
 	if(Q->front == Q->rear)
 		return 0;
 	*e = Q->front->next->data;
 	return 1;
+}
+
+int IsEmpty_LQ(LinkQueue* Q)
+{
+	if(Q->front == Q->rear)
+		return 1;
+	else
+		return 0;
 }

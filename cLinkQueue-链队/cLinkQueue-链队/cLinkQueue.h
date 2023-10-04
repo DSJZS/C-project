@@ -2,8 +2,9 @@
 #define __CLINKQUEUE_H__
  
 #include <stdlib.h>
+#include "BinLinkList.h"
 
-typedef int QElemType;
+typedef BiNode QElemType;
 
 typedef struct QNode{
 	QElemType data;		// 数据域
@@ -24,5 +25,8 @@ int EnQueue_LQ(LinkQueue* Q, QElemType e);
 // 链队出队
 int DeQueue_LQ(LinkQueue* Q, QElemType* e);
 // 获得顶部元素
-int GetHead(LinkQueue* Q, QElemType* e);
+int GetHead_LQ(LinkQueue* Q, QElemType* e);
+// 判断链队是否为空对
+int IsEmpty_LQ(LinkQueue* Q);
+
 #endif
