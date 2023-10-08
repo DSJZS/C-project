@@ -26,13 +26,17 @@ int main()
 {
 	BiTree bt1 = NULL;
 	BiTree bt2 = NULL;
+
 	CreateBiTree(&bt1,input,delim);
 	CopyTree(bt1,&bt2);
+	InOrderThread_Head(&bt2,bt2);
 
-	printf("%d\n", InOrderTraverse(bt2,visit));
-	printf("%d\n", TreeDepth(bt2));
-	printf("%d\n", LeafCount(bt2));
-	printf("%d\n", TNodeCount(bt2));
+	printf("\n");
+
+	printf("%d\n", InOrderThraverse_Thr(bt2,visit));
+	//printf("%d\n", TreeDepth(bt2));
+	//printf("%d\n", LeafCount(bt2));
+	//printf("%d\n", TNodeCount(bt2));
 
 	return 0;
 }
