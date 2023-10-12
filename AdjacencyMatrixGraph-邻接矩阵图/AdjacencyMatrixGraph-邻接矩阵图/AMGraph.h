@@ -7,6 +7,7 @@
 #define MaxInt 10086	//	表示极大值
 
 #include <stdio.h>
+#include "cLinkQueue.h"
 
 typedef char VerTexType;	//	设置顶点的数据类型
 typedef int ArcType;	//	设置边的数据类型
@@ -20,4 +21,11 @@ typedef struct AMGraph{
 
 //	构造无向网
 int CreateUDN(AMGraph* G);
+
+//	连通图深度优先搜索
+void DFS(AMGraph* G,int v);
+
+//	连通图广度优先搜索
+void BFS(AMGraph* G,int v);
+
 #endif
