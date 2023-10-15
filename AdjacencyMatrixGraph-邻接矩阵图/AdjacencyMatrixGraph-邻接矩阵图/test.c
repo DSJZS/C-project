@@ -4,6 +4,10 @@
 
 int main()
 {
+	AMGraph G;
+	CreateUDN(&G);
+	PrintGraph(&G); 
+	MiniSpanTree_Prim(&G,'A');
 
 	return 0;
 }
